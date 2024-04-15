@@ -13,6 +13,7 @@
     <title>Registration Page</title>
 </head>
 <body>
+    <%@include file="header.jsp" %>
     <form action="" method="POST">
         <input type="text" name="name" placeholder="Name"><br>
         <input type="email" name="email" placeholder="Email"><br>

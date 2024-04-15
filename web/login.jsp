@@ -13,6 +13,7 @@
         <title>Login Page</title>
     </head>
     <body>
+        <%@include file="header.jsp" %>
         <div class="container d-flex justify-content-center align-items-center" style="height: 100vh;">
             <form method="POST">
                 <div class="mb-3">

@@ -1,3 +1,6 @@
+<%@page import="java.sql.*" %> 
+<%@page import="com.mysql.jdbc.Driver" %>
+<%@ page import="java.util.Base64" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -23,6 +26,14 @@
 
         <!-- Customized Bootstrap Stylesheet -->
         <link href="css/style.css" rel="stylesheet">
+        <style>
+    /* Style for product images */
+    .product-img img {
+        width: 100%; /* Set image width to 100% of the container */
+        height: 200px; /* Set a fixed height */
+        object-fit: cover; /* Maintain aspect ratio and crop excess */
+    }
+</style>
     </head>
 
     <body>
@@ -189,9 +200,9 @@
                     <div class="position-relative bg-secondary text-center text-md-right text-white mb-2 py-5 px-5">
                         <img src="img/offer-1.png" alt="">
                         <div class="position-relative" style="z-index: 1;">
-                            <h5 class="text-uppercase text-primary mb-3">20% off the all order</h5>
-                            <h1 class="mb-4 font-weight-semi-bold">Spring Collection</h1>
-                            <a href="" class="btn btn-outline-primary py-md-2 px-md-3">Shop Now</a>
+                            <h1 class="mb-4 font-weight-semi-bold">Arts and Antiques</h1>
+                            <h5 class="text-uppercase text-primary mb-3">20% off on winning bid amount</h5>
+                            <a href="" class="btn btn-outline-primary py-md-2 px-md-3">Bid Now</a>
                         </div>
                     </div>
                 </div>
@@ -199,9 +210,9 @@
                     <div class="position-relative bg-secondary text-center text-md-left text-white mb-2 py-5 px-5">
                         <img src="img/offer-2.png" alt="">
                         <div class="position-relative" style="z-index: 1;">
-                            <h5 class="text-uppercase text-primary mb-3">20% off the all order</h5>
-                            <h1 class="mb-4 font-weight-semi-bold">Winter Collection</h1>
-                            <a href="" class="btn btn-outline-primary py-md-2 px-md-3">Shop Now</a>
+                            <h5 class="text-uppercase text-primary mb-3">10% off on winning bid amount</h5>
+                            <h1 class="mb-4 font-weight-semi-bold">Real Estate</h1>
+                            <a href="" class="btn btn-outline-primary py-md-2 px-md-3">Bid Now</a>
                         </div>
                     </div>
                 </div>
@@ -213,9 +224,9 @@
         <!-- Products Start -->
         <div class="container-fluid pt-5">
             <div class="text-center mb-4">
-                <h2 class="section-title px-5"><span class="px-2">Trandy Products</span></h2>
+                <h2 class="section-title px-5"><span class="px-2">Featured Products</span></h2>
             </div>
-            <div class="row px-xl-5 pb-3">
+<!--            <div class="row px-xl-5 pb-3">
                 <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
                     <div class="card product-item border-0 mb-4">
                         <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
@@ -353,7 +364,112 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div>-->
+<%@ page import="java.sql.*" %>
+<%@ page import="java.util.Base64" %>
+<%@ page import="java.text.SimpleDateFormat" %>
+
+<div class="row px-xl-5 pb-3">
+    <%
+        // Database connection parameters
+        String dbUrl = "jdbc:mysql://localhost:3306/auction";
+        String dbUser = "root";
+        String dbPass = "";
+        
+        // Variables for the database connection and query results
+        Connection conn = null;
+        Statement stmt = null;
+        ResultSet rs = null;
+
+        // Create date formatters for the times
+        SimpleDateFormat dateFormatter = new SimpleDateFormat("MMM dd, yyyy HH:mm:ss");
+
+        try {
+            // Load the JDBC driver
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            
+            // Connect to the database
+            conn = DriverManager.getConnection(dbUrl, dbUser, dbPass);
+            
+            // Create a statement
+            stmt = conn.createStatement();
+            
+            // Query to fetch the data
+            String sql = "SELECT item_id, item_name, item_img, item_bprice, start_time, end_time FROM item WHERE item_type='featured'";
+            
+            // Execute the query
+            rs = stmt.executeQuery(sql);
+            
+            // Get the current time
+            long currentTime = System.currentTimeMillis();
+            
+            // Loop through the results and display the product cards
+            while (rs.next()) {
+                String itemName = rs.getString("item_name");
+                int itemBPrice = rs.getInt("item_bprice");
+                
+                // Convert the image data to base64
+                byte[] imgData = rs.getBytes("item_img");
+                String base64Image = Base64.getEncoder().encodeToString(imgData);
+                
+                // Get start and end times as long (milliseconds since epoch)
+                long startTime = rs.getTimestamp("start_time").getTime();
+                long endTime = rs.getTimestamp("end_time").getTime();
+                
+                // Determine the auction status
+                String auctionStatus;
+                if (currentTime < startTime) {
+                    auctionStatus = "Upcoming";
+                } else if (currentTime >= startTime && currentTime <= endTime) {
+                    auctionStatus = "Ongoing";
+                } else {
+                    auctionStatus = "Ended";
+                }
+                
+                // Display the product card
+                out.println("<div class=\"col-lg-3 col-md-6 col-sm-12 pb-1\">");
+                out.println("    <div class=\"card product-item border-0 mb-4\">");
+                out.println("    <div class=\"card-header product-img position-relative overflow-hidden bg-transparent border p-0\">");
+                out.println("        <img class=\"img-fluid w-100\" src=\"data:image/jpeg;base64," + base64Image + "\" alt=\"Product Image\">");
+                out.println("    </div>");
+                out.println("        <div class=\"card-body border-left border-right text-center p-0 pt-4 pb-3\">");
+                out.println("            <h6 class=\"text-truncate mb-3\">" + itemName + "</h6>");
+                out.println("            <div class=\"d-flex justify-content-center\">");
+                out.println("                <h6>Base Price: $" + itemBPrice + "</h6>");
+                out.println("            </div>");
+                out.println("            <div class=\"text-muted\">Start Time: " + dateFormatter.format(startTime) + "</div>");
+                out.println("            <div class=\"text-muted\">End Time: " + dateFormatter.format(endTime) + "</div>");
+                out.println("            <div class=\"text-muted\">Status: " + auctionStatus + "</div>");
+                out.println("        </div>");
+                out.println("        <div class=\"card-footer d-flex justify-content-between bg-light border\">");
+                
+                // Change this section to replace "Add to Cart" with "Bid"
+                out.println("            <a href=\"#\" class=\"btn btn-sm text-dark p-0\"><i class=\"fas fa-eye text-primary mr-1\"></i>View Detail</a>");
+                // Modify the next line for the bid button
+                out.println("            <a href=\"#\" class=\"btn btn-sm text-dark p-0\"><i class=\"fas fa-gavel text-primary mr-1\"></i>Bid</a>");
+                
+                out.println("        </div>");
+                out.println("    </div>");
+                out.println("</div>");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            out.println("Error: " + e.getMessage());
+        } finally {
+            // Close the resources
+            if (rs != null) {
+                rs.close();
+            }
+            if (stmt != null) {
+                stmt.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+    %>
+</div>
+
         <!-- Products End -->
 
 
