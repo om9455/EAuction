@@ -6,7 +6,7 @@
 
     <head>
         <meta charset="utf-8">
-        <title>EShopper - Bootstrap Shop Template</title>
+        <title>EAuction</title>
         <meta content="width=device-width, initial-scale=1.0" name="viewport">
         <meta content="Free HTML Templates" name="keywords">
         <meta content="Free HTML Templates" name="description">
@@ -27,13 +27,13 @@
         <!-- Customized Bootstrap Stylesheet -->
         <link href="css/style.css" rel="stylesheet">
         <style>
-    /* Style for product images */
-    .product-img img {
-        width: 100%; /* Set image width to 100% of the container */
-        height: 200px; /* Set a fixed height */
-        object-fit: cover; /* Maintain aspect ratio and crop excess */
-    }
-</style>
+            /* Style for product images */
+            .product-img img {
+                width: 100%; /* Set image width to 100% of the container */
+                height: 200px; /* Set a fixed height */
+                object-fit: cover; /* Maintain aspect ratio and crop excess */
+            }
+        </style>
     </head>
 
     <body>
@@ -41,12 +41,12 @@
 
         <!-- Topbar End -->
 
-
+<%@include file="header.jsp" %>
         <!-- Navbar Start -->
         <div class="container-fluid mb-5">
             <div class="row border-top px-xl-5">
                 <div class="col-lg-12">
-                    <%@include file="header.jsp" %>
+                    
                     <div id="header-carousel" class="carousel slide" data-ride="carousel">
                         <div class="carousel-inner">
                             <div class="carousel-item active" style="height: 410px;">
@@ -117,8 +117,10 @@
             </div>
         </div>
         <!-- Featured End -->
-
-
+        <br><br><br>
+        <div class="text-center mb-4">
+            <h2 class="section-title px-5"><span class="px-2">Categories</span></h2>
+        </div>
         <!-- Categories Start -->
         <div class="container-fluid pt-5">
             <div class="row px-xl-5 pb-3">
@@ -201,8 +203,8 @@
                         <img src="img/offer-1.png" alt="">
                         <div class="position-relative" style="z-index: 1;">
                             <h1 class="mb-4 font-weight-semi-bold">Arts and Antiques</h1>
-                            <h5 class="text-uppercase text-primary mb-3">20% off on winning bid amount</h5>
-                            <a href="" class="btn btn-outline-primary py-md-2 px-md-3">Bid Now</a>
+                            <h5 class="text-uppercase text-primary mb-3">5% off on winning bid amount</h5>
+                            <a href="artandantique.jsp" class="btn btn-outline-primary py-md-2 px-md-3">Bid Now</a>
                         </div>
                     </div>
                 </div>
@@ -211,8 +213,8 @@
                         <img src="img/offer-2.png" alt="">
                         <div class="position-relative" style="z-index: 1;">
                             <h1 class="mb-4 font-weight-semi-bold">Real Estate</h1>
-                            <h5 class="text-uppercase text-primary mb-3">10% off on winning bid amount</h5>
-                            <a href="" class="btn btn-outline-primary py-md-2 px-md-3">Bid Now</a>
+                            <h5 class="text-uppercase text-primary mb-3">1% off on winning bid amount</h5>
+                            <a href="realestate.jsp" class="btn btn-outline-primary py-md-2 px-md-3">Bid Now</a>
                         </div>
                     </div>
                 </div>
@@ -222,290 +224,132 @@
 
 
         <!-- Products Start -->
-        <div class="container-fluid pt-5">
-            <div class="text-center mb-4">
-                <h2 class="section-title px-5"><span class="px-2">Featured Products</span></h2>
-            </div>
-
-<%@ page import="java.sql.*" %>
-<%@ page import="java.util.Base64" %>
-<%@ page import="java.text.SimpleDateFormat" %>
-
-<div class="row px-xl-5 pb-3">
-    <%
-        // Database connection parameters
-        String dbUrl = "jdbc:mysql://localhost:3306/auction";
-        String dbUser = "root";
-        String dbPass = "";
+        <!--        <div class="container-fluid pt-5">
+                    <div class="text-center mb-4">
+                        <h2 class="section-title px-5"><span class="px-2">Featured Products</span></h2>
+                    </div>
         
-        // Variables for the database connection and query results
-        Connection conn = null;
-        Statement stmt = null;
-        ResultSet rs = null;
-
-        // Create date formatters for the times
-        SimpleDateFormat dateFormatter = new SimpleDateFormat("MMM dd, yyyy HH:mm:ss");
-
-        try {
-            // Load the JDBC driver
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            
-            // Connect to the database
-            conn = DriverManager.getConnection(dbUrl, dbUser, dbPass);
-            
-            // Create a statement
-            stmt = conn.createStatement();
-            
-            // Query to fetch the data
-            String sql = "SELECT item_id, item_name, item_img, item_bprice, start_time, end_time FROM item WHERE item_type='featured'";
-            
-            // Execute the query
-            rs = stmt.executeQuery(sql);
-            
-            // Get the current time
-            long currentTime = System.currentTimeMillis();
-            
-            // Loop through the results and display the product cards
-            while (rs.next()) {
-                String itemName = rs.getString("item_name");
-                int itemBPrice = rs.getInt("item_bprice");
-                
-                // Convert the image data to base64
-                byte[] imgData = rs.getBytes("item_img");
-                String base64Image = Base64.getEncoder().encodeToString(imgData);
-                
-                // Get start and end times as long (milliseconds since epoch)
-                long startTime = rs.getTimestamp("start_time").getTime();
-                long endTime = rs.getTimestamp("end_time").getTime();
-                
-                // Determine the auction status
-                String auctionStatus;
-                if (currentTime < startTime) {
-                    auctionStatus = "Upcoming";
-                } else if (currentTime >= startTime && currentTime <= endTime) {
-                    auctionStatus = "Ongoing";
-                } else {
-                    auctionStatus = "Ended";
-                }
-                
-                // Display the product card
-                out.println("<div class=\"col-lg-3 col-md-6 col-sm-12 pb-1\">");
-                out.println("    <div class=\"card product-item border-0 mb-4\">");
-                out.println("    <div class=\"card-header product-img position-relative overflow-hidden bg-transparent border p-0\">");
-                out.println("        <img class=\"img-fluid w-100\" src=\"data:image/jpeg;base64," + base64Image + "\" alt=\"Product Image\">");
-                out.println("    </div>");
-                out.println("        <div class=\"card-body border-left border-right text-center p-0 pt-4 pb-3\">");
-                out.println("            <h6 class=\"text-truncate mb-3\">" + itemName + "</h6>");
-                out.println("            <div class=\"d-flex justify-content-center\">");
-                out.println("                <h6>Base Price: $" + itemBPrice + "</h6>");
-                out.println("            </div>");
-                out.println("            <div class=\"text-muted\">Start Time: " + dateFormatter.format(startTime) + "</div>");
-                out.println("            <div class=\"text-muted\">End Time: " + dateFormatter.format(endTime) + "</div>");
-                out.println("            <div class=\"text-muted\">Status: " + auctionStatus + "</div>");
-                out.println("        </div>");
-                out.println("        <div class=\"card-footer d-flex justify-content-between bg-light border\">");
-                
-                // Change this section to replace "Add to Cart" with "Bid"
-                out.println("            <a href=\"#\" class=\"btn btn-sm text-dark p-0\"><i class=\"fas fa-eye text-primary mr-1\"></i>View Detail</a>");
-                // Modify the next line for the bid button
-                out.println("            <a href=\"#\" class=\"btn btn-sm text-dark p-0\"><i class=\"fas fa-gavel text-primary mr-1\"></i>Bid</a>");
-                
-                out.println("        </div>");
-                out.println("    </div>");
-                out.println("</div>");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            out.println("Error: " + e.getMessage());
-        } finally {
-            // Close the resources
-            if (rs != null) {
-                rs.close();
-            }
-            if (stmt != null) {
-                stmt.close();
-            }
-            if (conn != null) {
-                conn.close();
-            }
-        }
-    %>
-</div>
-
+        <%--<%@ page import="java.sql.*" %>
+        <%@ page import="java.util.Base64" %>
+        <%@ page import="java.text.SimpleDateFormat" %>--%>
+        
+        <div class="row px-xl-5 pb-3">
+        <%
+    //        String dbUrl = "jdbc:mysql://localhost:3306/auction";
+    //        String dbUser = "root";
+    //        String dbPass = "";
+    //        
+    //        Connection conn = null;
+    //        Statement stmt = null;
+    //        ResultSet rs = null;
+    //
+    //        SimpleDateFormat dateFormatter = new SimpleDateFormat("MMM dd, yyyy HH:mm:ss");
+    //
+    //        try {
+    //            Class.forName("com.mysql.cj.jdbc.Driver");
+    //            
+    //            conn = DriverManager.getConnection(dbUrl, dbUser, dbPass);
+    //            
+    //            stmt = conn.createStatement();
+    //            
+    //            String sql = "SELECT item_id, item_name, item_img, item_bprice, start_time, end_time FROM item WHERE item_type='featured'";
+    //            
+    //            rs = stmt.executeQuery(sql);
+    //            
+    //            long currentTime = System.currentTimeMillis();
+    //            
+    //            while (rs.next()) {
+    //                String itemName = rs.getString("item_name");
+    //                int itemBPrice = rs.getInt("item_bprice");
+    //                
+    //                byte[] imgData = rs.getBytes("item_img");
+    //                String base64Image = Base64.getEncoder().encodeToString(imgData);
+    //                
+    //                long startTime = rs.getTimestamp("start_time").getTime();
+    //                long endTime = rs.getTimestamp("end_time").getTime();
+    //                
+    //                String auctionStatus;
+    //                if (currentTime < startTime) {
+    //                    auctionStatus = "Upcoming";
+    //                } else if (currentTime >= startTime && currentTime <= endTime) {
+    //                    auctionStatus = "Ongoing";
+    //                } else {
+    //                    auctionStatus = "Ended";
+    //                }
+    //                
+    //                out.println("<div class=\"col-lg-3 col-md-6 col-sm-12 pb-1\">");
+    //                out.println("    <div class=\"card product-item border-0 mb-4\">");
+    //                out.println("    <div class=\"card-header product-img position-relative overflow-hidden bg-transparent border p-0\">");
+    //                out.println("        <img class=\"img-fluid w-100\" src=\"data:image/jpeg;base64," + base64Image + "\" alt=\"Product Image\">");
+    //                out.println("    </div>");
+    //                out.println("        <div class=\"card-body border-left border-right text-center p-0 pt-4 pb-3\">");
+    //                out.println("            <h6 class=\"text-truncate mb-3\">" + itemName + "</h6>");
+    //                out.println("            <div class=\"d-flex justify-content-center\">");
+    //                out.println("                <h6>Base Price: $" + itemBPrice + "</h6>");
+    //                out.println("            </div>");
+    //                out.println("            <div class=\"text-muted\">Start Time: " + dateFormatter.format(startTime) + "</div>");
+    //                out.println("            <div class=\"text-muted\">End Time: " + dateFormatter.format(endTime) + "</div>");
+    //                out.println("            <div class=\"text-muted\">Status: " + auctionStatus + "</div>");
+    //                out.println("        </div>");
+    //                out.println("        <div class=\"card-footer d-flex justify-content-between bg-light border\">");
+    //                
+    //                out.println("            <a href=\"#\" class=\"btn btn-sm text-dark p-0\"><i class=\"fas fa-eye text-primary mr-1\"></i>View Detail</a>");
+    //                out.println("            <a href=\"#\" class=\"btn btn-sm text-dark p-0\"><i class=\"fas fa-gavel text-primary mr-1\"></i>Bid</a>");
+    //                
+    //                out.println("        </div>");
+    //                out.println("    </div>");
+    //                out.println("</div>");
+    //            }
+    //        } catch (Exception e) {
+    //            e.printStackTrace();
+    //            out.println("Error: " + e.getMessage());
+    //        } finally {
+    //            if (rs != null) {
+    //                rs.close();
+    //            }
+    //            if (stmt != null) {
+    //                stmt.close();
+    //            }
+    //            if (conn != null) {
+    //                conn.close();
+    //            }
+    //        }
+        %>
+    </div>
+            </div>-->
         <!-- Products End -->
 
 
         <!-- Subscribe Start -->
-        <div class="container-fluid bg-secondary my-5">
-            <div class="row justify-content-md-center py-5 px-xl-5">
-                <div class="col-md-6 col-12 py-5">
-                    <div class="text-center mb-2 pb-2">
-                        <h2 class="section-title px-5 mb-3"><span class="bg-secondary px-2">Stay Updated</span></h2>
-                        <p>Amet lorem at rebum amet dolores. Elitr lorem dolor sed amet diam labore at justo ipsum eirmod duo labore labore.</p>
-                    </div>
-                    <form action="">
-                        <div class="input-group">
-                            <input type="text" class="form-control border-white p-4" placeholder="Email Goes Here">
-                            <div class="input-group-append">
-                                <button class="btn btn-primary px-4">Subscribe</button>
-                            </div>
+        <!--        <div class="container-fluid bg-secondary my-5">
+                    <div class="row justify-content-md-center py-5 px-xl-5">
+                        <div class="col-md-6 col-12 py-5">
+                            <div class="text-center mb-2 pb-2">
+                                <h2 class="section-title px-5 mb-3"><span class="bg-secondary px-2">Stay Updated</span></h2>
+                                <p>Subscribe to get details of the latest products going live.</p>
+                            
+                            <form action="">
+                                <div class="input-group">
+                                    <input type="text" class="form-control border-white p-4" placeholder="Email Goes Here">
+                                    <div class="input-group-append">
+                                        <button class="btn btn-primary px-4">Subscribe</button>
+                                    </div>
+                                </div>
+                            </form>
+                                </div>
                         </div>
-                    </form>
-                </div>
-            </div>
-        </div>
+                    </div>
+                </div>-->
         <!-- Subscribe End -->
 
 
-        <!-- Products Start -->
-        <div class="container-fluid pt-5">
-            <div class="text-center mb-4">
-                <h2 class="section-title px-5"><span class="px-2">Just Arrived</span></h2>
-            </div>
-            <div class="row px-xl-5 pb-3">
-                <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
-                    <div class="card product-item border-0 mb-4">
-                        <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
-                            <img class="img-fluid w-100" src="img/product-1.jpg" alt="">
-                        </div>
-                        <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
-                            <h6 class="text-truncate mb-3">Colorful Stylish Shirt</h6>
-                            <div class="d-flex justify-content-center">
-                                <h6>$123.00</h6><h6 class="text-muted ml-2"><del>$123.00</del></h6>
-                            </div>
-                        </div>
-                        <div class="card-footer d-flex justify-content-between bg-light border">
-                            <a href="" class="btn btn-sm text-dark p-0"><i class="fas fa-eye text-primary mr-1"></i>View Detail</a>
-                            <a href="" class="btn btn-sm text-dark p-0"><i class="fas fa-shopping-cart text-primary mr-1"></i>Add To Cart</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
-                    <div class="card product-item border-0 mb-4">
-                        <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
-                            <img class="img-fluid w-100" src="img/product-2.jpg" alt="">
-                        </div>
-                        <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
-                            <h6 class="text-truncate mb-3">Colorful Stylish Shirt</h6>
-                            <div class="d-flex justify-content-center">
-                                <h6>$123.00</h6><h6 class="text-muted ml-2"><del>$123.00</del></h6>
-                            </div>
-                        </div>
-                        <div class="card-footer d-flex justify-content-between bg-light border">
-                            <a href="" class="btn btn-sm text-dark p-0"><i class="fas fa-eye text-primary mr-1"></i>View Detail</a>
-                            <a href="" class="btn btn-sm text-dark p-0"><i class="fas fa-shopping-cart text-primary mr-1"></i>Add To Cart</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
-                    <div class="card product-item border-0 mb-4">
-                        <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
-                            <img class="img-fluid w-100" src="img/product-3.jpg" alt="">
-                        </div>
-                        <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
-                            <h6 class="text-truncate mb-3">Colorful Stylish Shirt</h6>
-                            <div class="d-flex justify-content-center">
-                                <h6>$123.00</h6><h6 class="text-muted ml-2"><del>$123.00</del></h6>
-                            </div>
-                        </div>
-                        <div class="card-footer d-flex justify-content-between bg-light border">
-                            <a href="" class="btn btn-sm text-dark p-0"><i class="fas fa-eye text-primary mr-1"></i>View Detail</a>
-                            <a href="" class="btn btn-sm text-dark p-0"><i class="fas fa-shopping-cart text-primary mr-1"></i>Add To Cart</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
-                    <div class="card product-item border-0 mb-4">
-                        <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
-                            <img class="img-fluid w-100" src="img/product-4.jpg" alt="">
-                        </div>
-                        <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
-                            <h6 class="text-truncate mb-3">Colorful Stylish Shirt</h6>
-                            <div class="d-flex justify-content-center">
-                                <h6>$123.00</h6><h6 class="text-muted ml-2"><del>$123.00</del></h6>
-                            </div>
-                        </div>
-                        <div class="card-footer d-flex justify-content-between bg-light border">
-                            <a href="" class="btn btn-sm text-dark p-0"><i class="fas fa-eye text-primary mr-1"></i>View Detail</a>
-                            <a href="" class="btn btn-sm text-dark p-0"><i class="fas fa-shopping-cart text-primary mr-1"></i>Add To Cart</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
-                    <div class="card product-item border-0 mb-4">
-                        <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
-                            <img class="img-fluid w-100" src="img/product-5.jpg" alt="">
-                        </div>
-                        <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
-                            <h6 class="text-truncate mb-3">Colorful Stylish Shirt</h6>
-                            <div class="d-flex justify-content-center">
-                                <h6>$123.00</h6><h6 class="text-muted ml-2"><del>$123.00</del></h6>
-                            </div>
-                        </div>
-                        <div class="card-footer d-flex justify-content-between bg-light border">
-                            <a href="" class="btn btn-sm text-dark p-0"><i class="fas fa-eye text-primary mr-1"></i>View Detail</a>
-                            <a href="" class="btn btn-sm text-dark p-0"><i class="fas fa-shopping-cart text-primary mr-1"></i>Add To Cart</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
-                    <div class="card product-item border-0 mb-4">
-                        <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
-                            <img class="img-fluid w-100" src="img/product-6.jpg" alt="">
-                        </div>
-                        <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
-                            <h6 class="text-truncate mb-3">Colorful Stylish Shirt</h6>
-                            <div class="d-flex justify-content-center">
-                                <h6>$123.00</h6><h6 class="text-muted ml-2"><del>$123.00</del></h6>
-                            </div>
-                        </div>
-                        <div class="card-footer d-flex justify-content-between bg-light border">
-                            <a href="" class="btn btn-sm text-dark p-0"><i class="fas fa-eye text-primary mr-1"></i>View Detail</a>
-                            <a href="" class="btn btn-sm text-dark p-0"><i class="fas fa-shopping-cart text-primary mr-1"></i>Add To Cart</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
-                    <div class="card product-item border-0 mb-4">
-                        <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
-                            <img class="img-fluid w-100" src="img/product-7.jpg" alt="">
-                        </div>
-                        <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
-                            <h6 class="text-truncate mb-3">Colorful Stylish Shirt</h6>
-                            <div class="d-flex justify-content-center">
-                                <h6>$123.00</h6><h6 class="text-muted ml-2"><del>$123.00</del></h6>
-                            </div>
-                        </div>
-                        <div class="card-footer d-flex justify-content-between bg-light border">
-                            <a href="" class="btn btn-sm text-dark p-0"><i class="fas fa-eye text-primary mr-1"></i>View Detail</a>
-                            <a href="" class="btn btn-sm text-dark p-0"><i class="fas fa-shopping-cart text-primary mr-1"></i>Add To Cart</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
-                    <div class="card product-item border-0 mb-4">
-                        <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
-                            <img class="img-fluid w-100" src="img/product-8.jpg" alt="">
-                        </div>
-                        <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
-                            <h6 class="text-truncate mb-3">Colorful Stylish Shirt</h6>
-                            <div class="d-flex justify-content-center">
-                                <h6>$123.00</h6><h6 class="text-muted ml-2"><del>$123.00</del></h6>
-                            </div>
-                        </div>
-                        <div class="card-footer d-flex justify-content-between bg-light border">
-                            <a href="" class="btn btn-sm text-dark p-0"><i class="fas fa-eye text-primary mr-1"></i>View Detail</a>
-                            <a href="" class="btn btn-sm text-dark p-0"><i class="fas fa-shopping-cart text-primary mr-1"></i>Add To Cart</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Products End -->
 
 
         <!-- Vendor Start -->
         <div class="container-fluid py-5">
+            <div class="text-center mb-4">
+                <h2 class="section-title px-5"><span class="px-2">Our Sponsors</span></h2>
+            </div>
             <div class="row px-xl-5">
                 <div class="col">
                     <div class="owl-carousel vendor-carousel">
