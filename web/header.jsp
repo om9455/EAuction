@@ -47,17 +47,17 @@
     </button>
     <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
         <div class="navbar-nav mr-auto py-0">
-            <a href="index.html" class="nav-item nav-link active">Home</a>
+            <a href="index.jsp" class="nav-item nav-link active">Home</a>
             <a href="shop.html" class="nav-item nav-link">Shop</a>
             <a href="detail.html" class="nav-item nav-link">Shop Detail</a>
             <div class="nav-item dropdown">
-                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Pages</a>
+                <a href="" class="nav-link dropdown-toggle" data-toggle="dropdown">Pages</a>
                 <div class="dropdown-menu rounded-0 m-0">
                     <a href="electronics.jsp" class="dropdown-item">Electronics</a>
                     <a href="vehicles.jsp" class="dropdown-item">Vehicles</a>
-                    <a href="real-estate.jsp" class="dropdown-item">Real Estate</a>
-                    <a href="art-and-antique.jsp" class="dropdown-item">Art & Antiques</a>
-                    <a href="jwellery-and-watches.jsp" class="dropdown-item">Jewelry & Watches</a>
+                    <a href="realestate.jsp" class="dropdown-item">Real Estate</a>
+                    <a href="artandantique.jsp" class="dropdown-item">Art & Antiques</a>
+                    <a href="jwelleryandwatches.jsp" class="dropdown-item">Jewelry & Watches</a>
                     <a href="collectibles.jsp" class="dropdown-item">Collectibles</a>
                 </div>
             </div>
