@@ -78,8 +78,10 @@ if ("POST".equalsIgnoreCase(request.getMethod())){
 
         if (rs.next()) {
             String u_name = rs.getString("u_name");
+            String u_id = rs.getString("u_id");
             session.setAttribute("u_email", u_email);
             session.setAttribute("u_name", u_name);
+            session.setAttribute("u_id", u_id);
             response.sendRedirect("home.jsp");
         } else {
                 
