@@ -41,12 +41,12 @@
 
         <!-- Topbar End -->
 
-<%@include file="header.jsp" %>
+
         <!-- Navbar Start -->
         <div class="container-fluid mb-5">
             <div class="row border-top px-xl-5">
                 <div class="col-lg-12">
-                    
+                    <%@include file="header.jsp" %>
                     <div id="header-carousel" class="carousel slide" data-ride="carousel">
                         <div class="carousel-inner">
                             <div class="carousel-item active" style="height: 410px;">
