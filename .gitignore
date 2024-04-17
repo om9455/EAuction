@@ -1,2 +1,6 @@
 /build/
 /dist/
+private.properties
+project.properties
+private.xml
+.DS_Store
