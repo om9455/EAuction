@@ -41,12 +41,12 @@
 
         <!-- Topbar End -->
 
-<%@include file="header.jsp" %>
+
         <!-- Navbar Start -->
         <div class="container-fluid mb-5">
             <div class="row border-top px-xl-5">
                 <div class="col-lg-12">
-                    
+                    <%@include file="header.jsp" %>
                     <div id="header-carousel" class="carousel slide" data-ride="carousel">
                         <div class="carousel-inner">
                             <div class="carousel-item active" style="height: 410px;">
@@ -224,99 +224,103 @@
 
 
         <!-- Products Start -->
-        <!--        <div class="container-fluid pt-5">
+               <div class="container-fluid pt-5">
                     <div class="text-center mb-4">
                         <h2 class="section-title px-5"><span class="px-2">Featured Products</span></h2>
                     </div>
         
-        <%--<%@ page import="java.sql.*" %>
+        <%@ page import="java.sql.*" %>
         <%@ page import="java.util.Base64" %>
-        <%@ page import="java.text.SimpleDateFormat" %>--%>
+        <%@ page import="java.text.SimpleDateFormat" %>
         
         <div class="row px-xl-5 pb-3">
         <%
-    //        String dbUrl = "jdbc:mysql://localhost:3306/auction";
-    //        String dbUser = "root";
-    //        String dbPass = "";
-    //        
-    //        Connection conn = null;
-    //        Statement stmt = null;
-    //        ResultSet rs = null;
-    //
-    //        SimpleDateFormat dateFormatter = new SimpleDateFormat("MMM dd, yyyy HH:mm:ss");
-    //
-    //        try {
-    //            Class.forName("com.mysql.cj.jdbc.Driver");
-    //            
-    //            conn = DriverManager.getConnection(dbUrl, dbUser, dbPass);
-    //            
-    //            stmt = conn.createStatement();
-    //            
-    //            String sql = "SELECT item_id, item_name, item_img, item_bprice, start_time, end_time FROM item WHERE item_type='featured'";
-    //            
-    //            rs = stmt.executeQuery(sql);
-    //            
-    //            long currentTime = System.currentTimeMillis();
-    //            
-    //            while (rs.next()) {
-    //                String itemName = rs.getString("item_name");
-    //                int itemBPrice = rs.getInt("item_bprice");
-    //                
-    //                byte[] imgData = rs.getBytes("item_img");
-    //                String base64Image = Base64.getEncoder().encodeToString(imgData);
-    //                
-    //                long startTime = rs.getTimestamp("start_time").getTime();
-    //                long endTime = rs.getTimestamp("end_time").getTime();
-    //                
-    //                String auctionStatus;
-    //                if (currentTime < startTime) {
-    //                    auctionStatus = "Upcoming";
-    //                } else if (currentTime >= startTime && currentTime <= endTime) {
-    //                    auctionStatus = "Ongoing";
-    //                } else {
-    //                    auctionStatus = "Ended";
-    //                }
-    //                
-    //                out.println("<div class=\"col-lg-3 col-md-6 col-sm-12 pb-1\">");
-    //                out.println("    <div class=\"card product-item border-0 mb-4\">");
-    //                out.println("    <div class=\"card-header product-img position-relative overflow-hidden bg-transparent border p-0\">");
-    //                out.println("        <img class=\"img-fluid w-100\" src=\"data:image/jpeg;base64," + base64Image + "\" alt=\"Product Image\">");
-    //                out.println("    </div>");
-    //                out.println("        <div class=\"card-body border-left border-right text-center p-0 pt-4 pb-3\">");
-    //                out.println("            <h6 class=\"text-truncate mb-3\">" + itemName + "</h6>");
-    //                out.println("            <div class=\"d-flex justify-content-center\">");
-    //                out.println("                <h6>Base Price: $" + itemBPrice + "</h6>");
-    //                out.println("            </div>");
-    //                out.println("            <div class=\"text-muted\">Start Time: " + dateFormatter.format(startTime) + "</div>");
-    //                out.println("            <div class=\"text-muted\">End Time: " + dateFormatter.format(endTime) + "</div>");
-    //                out.println("            <div class=\"text-muted\">Status: " + auctionStatus + "</div>");
-    //                out.println("        </div>");
-    //                out.println("        <div class=\"card-footer d-flex justify-content-between bg-light border\">");
-    //                
-    //                out.println("            <a href=\"#\" class=\"btn btn-sm text-dark p-0\"><i class=\"fas fa-eye text-primary mr-1\"></i>View Detail</a>");
-    //                out.println("            <a href=\"#\" class=\"btn btn-sm text-dark p-0\"><i class=\"fas fa-gavel text-primary mr-1\"></i>Bid</a>");
-    //                
-    //                out.println("        </div>");
-    //                out.println("    </div>");
-    //                out.println("</div>");
-    //            }
-    //        } catch (Exception e) {
-    //            e.printStackTrace();
-    //            out.println("Error: " + e.getMessage());
-    //        } finally {
-    //            if (rs != null) {
-    //                rs.close();
-    //            }
-    //            if (stmt != null) {
-    //                stmt.close();
-    //            }
-    //            if (conn != null) {
-    //                conn.close();
-    //            }
-    //        }
+           String dbUrl = "jdbc:mysql://localhost:3306/auction";
+            String dbUser = "root";
+            String dbPass = "";
+            
+            Connection conn = null;
+            Statement stmt = null;
+            ResultSet rs = null;
+    
+            SimpleDateFormat dateFormatter = new SimpleDateFormat("MMM dd, yyyy HH:mm:ss");
+    
+           try {
+                Class.forName("com.mysql.cj.jdbc.Driver");
+                
+                conn = DriverManager.getConnection(dbUrl, dbUser, dbPass);
+                
+                stmt = conn.createStatement();
+                
+                String sql = "SELECT item_id, item_name, item_img, item_bprice, start_time, end_time FROM item WHERE item_type='featured'";
+                
+                rs = stmt.executeQuery(sql);
+               
+                long currentTime = System.currentTimeMillis();
+                
+                while (rs.next()) {
+                    String itemName = rs.getString("item_name");
+                    int itemBPrice = rs.getInt("item_bprice");
+                    
+                    byte[] imgData = rs.getBytes("item_img");
+                    String base64Image = Base64.getEncoder().encodeToString(imgData);
+                    
+                    long startTime = rs.getTimestamp("start_time").getTime();
+                    long endTime = rs.getTimestamp("end_time").getTime();
+                    
+                    String auctionStatus;
+                    if (currentTime < startTime) {
+                        auctionStatus = "Upcoming";
+                    } else if (currentTime >= startTime && currentTime <= endTime) {
+                        auctionStatus = "Ongoing";
+                    } else {
+                        auctionStatus = "Ended";
+                    }
+                    
+                    out.println("<div class=\"col-lg-3 col-md-6 col-sm-12 pb-1\">");
+                    out.println("    <div class=\"card product-item border-0 mb-4\">");
+                    out.println("    <div class=\"card-header product-img position-relative overflow-hidden bg-transparent border p-0\">");
+                    out.println("        <img class=\"img-fluid w-100\" src=\"data:image/jpeg;base64," + base64Image + "\" alt=\"Product Image\">");
+                    out.println("    </div>");
+                    out.println("        <div class=\"card-body border-left border-right text-center p-0 pt-4 pb-3\">");
+                    out.println("            <h6 class=\"text-truncate mb-3\">" + itemName + "</h6>");
+                    out.println("            <div class=\"d-flex justify-content-center\">");
+                    out.println("                <h6>Base Price: $" + itemBPrice + "</h6>");
+                    out.println("            </div>");
+                    out.println("            <div class=\"text-muted\">Start Time: " + dateFormatter.format(startTime) + "</div>");
+                    out.println("            <div class=\"text-muted\">End Time: " + dateFormatter.format(endTime) + "</div>");
+                    out.println("            <div class=\"text-muted\">Status: " + auctionStatus + "</div>");
+                    out.println("        </div>");
+                    out.println("        <div class=\"card-footer d-flex justify-content-between bg-light border\">");
+                    
+                    out.println("    <a href=\"productdetails.jsp?item_id=" + rs.getInt("item_id") + "\" class=\"btn btn-sm text-dark p-0\">");
+                        out.println("        <i class=\"fas fa-eye text-primary mr-1\"></i>View Detail");
+                        out.println("    </a>");
+                            // Modify the next line for the bid button
+                        out.println("    <a href=\"productdetails.jsp?item_id=" + rs.getInt("item_id") + "\" class=\"btn btn-sm text-dark p-0\">");
+                        out.println("        <i class=\"fas fa-gavel text-primary mr-1\"></i>Bid");
+                        out.println("    </a>");
+                    out.println("        </div>");
+                    out.println("    </div>");
+                    out.println("</div>");
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                out.println("Error: " + e.getMessage());
+            } finally {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (stmt != null) {
+                    stmt.close();
+                }
+                if (conn != null) {
+                    conn.close();
+                }
+            }
         %>
     </div>
-            </div>-->
+            </div>
         <!-- Products End -->
 
 
