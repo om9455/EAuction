@@ -131,11 +131,11 @@
                         out.println("        <div class=\"card-footer d-flex justify-content-between bg-light border\">");
                 
                         // Change this section to replace "Add to Cart" with "Bid"
-                         out.println("    <a href=\"productdetails.jsp?item_id=" + rs.getInt("item_id") + "\" class=\"btn btn-sm text-dark p-0\">");
+                        out.println("    <a href=\"productdetails.jsp?item_id=" + rs.getInt("item_id") + "\" class=\"btn btn-sm text-dark p-0\">");
                         out.println("        <i class=\"fas fa-eye text-primary mr-1\"></i>View Detail");
                         out.println("    </a>");
                             // Modify the next line for the bid button
-                            out.println("    <a href=\"productdetails.jsp?item_id=" + rs.getInt("item_id") + "\" class=\"btn btn-sm text-dark p-0\">");
+                        out.println("    <a href=\"productdetails.jsp?item_id=" + rs.getInt("item_id") + "\" class=\"btn btn-sm text-dark p-0\">");
                         out.println("        <i class=\"fas fa-gavel text-primary mr-1\"></i>Bid");
                         out.println("    </a>");
                 

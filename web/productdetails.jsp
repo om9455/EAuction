@@ -1,4 +1,5 @@
 <%@ page import="java.sql.*, java.text.SimpleDateFormat, java.util.Base64" %>
+<%@ page import="jakarta.servlet.http.HttpSession" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -111,23 +112,34 @@
                     out.println("            <p class='mb-4'>" + description + "</p>");
                     // Display countdown timer for start and end times
                     out.println("            <p>Time Until Auction Starts: <span id='timer-start'></span></p>");
-                    out.println("            <p>Time Until Auction Ends: <span id='timer-end'></span></p>");
+                    out.println("            <p>Time Until Auction Ends: <span id='timer-end' data-placeholder='00:00:00'></span></p>");
                     out.println("            <br>");
 
                     // Add bidding form
-                    out.println("            <form id='bidding-form' action='submitBid.jsp' method='POST'>");
-                    out.println("                <input type='hidden' name='item_id' value='" + productId + "'>");
-                    out.println("                <div class='form-group'>");
-                    out.println("                    <label for='bid'>Enter Your Bid:</label>");
-                    out.println("                    <input type='number' class='form-control' name='bid' id='bid' required min='" + itemBPrice + "'>");
-                    out.println("                </div>");
-                    out.println("                <button type='submit' class='btn btn-primary' id='bidButton'>Submit Bid</button>");
-                    out.println("            </form>");
-                    
+                    // out.println("            <form id='bidding-form' action='submitBid.jsp' method='POST'>");
+                    // out.println("                <input type='hidden' name='item_id' value='" + productId + "'>");
+                    // out.println("                <div class='form-group'>");
+                    // out.println("                    <label for='bid'>Enter Your Bid:</label>");
+                    // out.println("                    <input type='number' class='form-control' name='bid' id='bid' required min='" + itemBPrice + "'>");
+                    // out.println("                </div>");
+                    // out.println("                <button type='submit' class='btn btn-primary' id='bidButton'>Submit Bid</button>");
+                    // out.println("            </form>");
+
+                    // Check if the user is logged in
+                    String userId = (String) session.getAttribute("u_id"); // Retrieve user ID from session
+
+                    if (userId != null) {
+                        // Display the "Enter Auction" button if the user is logged in
+                        out.println("            <a href='enterauction.jsp?item_id=" + productId + "' class='btn btn-primary' id='enterAuctionButton' >Enter Auction</a>");
+                    } else {
+                        // If the user is not logged in, redirect to the login page when the button is clicked
+                        out.println("            <a href='login.jsp' class='btn btn-primary'>Enter Auction</a>");
+                    }
+
                     out.println("        </div>");
                     out.println("    </div>");
                     out.println("</div>");
-                    
+
                     // JavaScript code for real-time countdown timer
                     out.println("<script>");
                     out.println("document.addEventListener('DOMContentLoaded', function() {");
@@ -156,15 +168,15 @@
                     out.println("        if (timeUntilStart > 0) {");
                     out.println("            document.getElementById('timer-start').innerText = formatTime(timeUntilStart);");
                     out.println("            document.getElementById('timer-end').innerText = '';"); // Hide end timer
-                    out.println("            document.getElementById('bidButton').disabled = true;");
+                    out.println("            document.getElementById('enterAuctionButton').disabled = true;");
                     out.println("        } else if (timeUntilEnd > 0) {");
                     out.println("            document.getElementById('timer-end').innerText = formatTime(timeUntilEnd);");
                     out.println("            document.getElementById('timer-start').innerText = '00:00:00';");
-                    out.println("            document.getElementById('bidButton').disabled = false;");
+                    out.println("            document.getElementById('enterAuctionButton').disabled = false;");
                     out.println("        } else {");
                     out.println("            document.getElementById('timer-end').innerText = '00:00:00';");
                     out.println("            document.getElementById('timer-start').innerText = '00:00:00';");
-                    out.println("            document.getElementById('bidButton').disabled = true;");
+                    out.println("            document.getElementById('enterAuctionButton').disabled = true;");
                     out.println("        }");
                     out.println("    }");
                     
