@@ -123,6 +123,7 @@
                 out.println("            <p>Time Until Auction Starts: <span id='timer-start'></span></p>");
                     
                 out.println("            <br>");
+                
                 ResultSet lastBidRs = stmt.executeQuery("SELECT u_id FROM bids WHERE item_id = '" + productId + "' ORDER BY bid_time DESC LIMIT 1");
 boolean isLastBidder = false;
 if (lastBidRs.next()) {
@@ -136,14 +137,31 @@ out.println("<script>");
 out.println("var isLastBidder = " + isLastBidder + ";");
 out.println("</script>");
                 // Add bidding form
-                out.println("            <form id='bidding-form' action='submitBid.jsp' method='POST'>");
-                out.println("                <input type='hidden' name='item_id' value='" + productId + "'>");
-                out.println("                <div class='form-group'>");
-                out.println("                    <label for='bid'>Enter Your Bid:</label>");
-                out.println("                    <input type='number' class='form-control' name='bid' id='bid' required min='" + itemBPrice + "'>");
-                out.println("                </div>");
-                out.println("                <button type='submit' class='btn btn-primary' id='bidButton'>Submit Bid</button>");
-                out.println("            </form>");
+              String highestBidSql = "SELECT MAX(bid_amount) AS highest_bid FROM bids WHERE item_id = '" + productId + "'";
+    ResultSet highestBidRs = stmt.executeQuery(highestBidSql);
+
+    int minBidAmount;
+
+    if (highestBidRs.next() && highestBidRs.getInt("highest_bid") > 0) {
+        // There is at least one bid, so set minBidAmount to the highest bid plus 1
+        minBidAmount = highestBidRs.getInt("highest_bid") + 1;
+    } else {
+        // There are no bids, so set minBidAmount to the starting price plus 1
+        minBidAmount = itemBPrice + 1;
+    }
+
+    // Close the ResultSet for highest bid
+    highestBidRs.close();
+
+    // Output the form with the corrected minimum bid value
+    out.println("<form id='bidding-form' action='submitBid.jsp' method='POST'>");
+    out.println("    <input type='hidden' name='item_id' value='" + productId + "'>");
+    out.println("    <div class='form-group'>");
+    out.println("        <label for='bid'>Enter Your Bid:</label>");
+    out.println("        <input type='number' class='form-control' name='bid' id='bid' required min='" + minBidAmount + "'>");
+    out.println("    </div>");
+    out.println("    <button type='submit' class='btn btn-primary' id='bidButton'>Submit Bid</button>");
+    out.println("</form>");
 //                    out.println("            <a href='enterAuction.jsp?item_id=" + productId + "&item_bprice=" + itemBPrice + "&end_time=" + endTime + "' class='btn btn-primary'>Enter Auction</a>");
                     
                 out.println("        </div>");
@@ -233,17 +251,30 @@ out.println("</script>");
                 out.println("</div>");
 
                 // Store the winner in the winners table only if the auction has ended
+                // Check if the auction has ended
                 if (System.currentTimeMillis() >= endTime1) {
-                    // Insert the winner details into the winners table
-                    String insertWinnerSql = "INSERT INTO winners (u_id, item_id, bid_id, bid_amount) VALUES (?, ?, ?, ?)";
-                    PreparedStatement pstmt = conn.prepareStatement(insertWinnerSql);
-                    pstmt.setString(1, productId);
-                    pstmt.setString(2, highestBidderId);
-                    pstmt.setString(3, highestBidId);
-                    pstmt.setInt(4, highestBidAmount);
-                    pstmt.executeUpdate();
-                    pstmt.close();
+    // Insert the winner details into the winners table
+                try {
+                        String insertWinnerSql = "INSERT INTO winners (u_id, item_id, bid_id, bid_amount) VALUES (?, ?, ?, ?)";
+                        PreparedStatement pstmt = conn.prepareStatement(insertWinnerSql);
+                        pstmt.setString(1, highestBidderId);
+                        pstmt.setString(2, productId);
+                        pstmt.setString(3, highestBidId);
+                        pstmt.setInt(4, highestBidAmount);
+        
+                        // Execute the update
+                        pstmt.executeUpdate();
+        
+                        // Close the PreparedStatement
+                        pstmt.close();
+                    
+                        } catch (SQLException e) {
+                        // Handle exceptions, log the error, or display an error message
+                        e.printStackTrace();
+                        out.println("<div class='container py-5'><h3>Error inserting winner data: " + e.getMessage() + "</h3></div>");
+                    }
                 }
+
             }
 
             // Close the ResultSet for bidders
@@ -317,17 +348,17 @@ out.println("</script>");
     %>
 
     <%@ include file="footer.jsp" %>
-     <!-- JavaScript Libraries -->
-        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
-        <script src="lib/easing/easing.min.js"></script>
-        <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+    <!-- JavaScript Libraries -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+    <script src="lib/easing/easing.min.js"></script>
+    <script src="lib/owlcarousel/owl.carousel.min.js"></script>
 
-        <!-- Contact Javascript File -->
-        <script src="mail/jqBootstrapValidation.min.js"></script>
-        <script src="mail/contact.js"></script>
+    <!-- Contact Javascript File -->
+    <script src="mail/jqBootstrapValidation.min.js"></script>
+    <script src="mail/contact.js"></script>
 
-        <!-- Template Javascript -->
-        <script src="js/main.js"></script>
+    <!-- Template Javascript -->
+    <script src="js/main.js"></script>
 </body>
 </html>
