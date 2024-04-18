@@ -60,7 +60,14 @@
                 </button>
                 <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                     <div class="navbar-nav mr-auto py-0">
-                        <a href="#" class="nav-item nav-link"><%= session.getAttribute("u_name") %>'s Profile</a>
+                        <div class="nav-item dropdown">
+                            <a href="" class="nav-link dropdown-toggle" data-toggle="dropdown"><%= session.getAttribute("u_name") %>'s Profile</a>
+                            <div class="dropdown-menu rounded-0 m-0">
+                                <a href="additem.jsp" class="dropdown-item">Sell</a>
+                                <a href="#" class="dropdown-item">Update Password</a>
+                                <a href="#" class="dropdown-item">Update Profile</a>
+                            </div>
+                        </div>
                         <a href="home.jsp" class="nav-item nav-link active">Home</a>
                         <a href="shop.jsp" class="nav-item nav-link">Products</a>
                         <div class="nav-item dropdown">

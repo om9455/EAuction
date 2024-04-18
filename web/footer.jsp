@@ -24,12 +24,15 @@
                     <h5 class="font-weight-bold text-dark mb-4">Quick Links</h5>
                     <div class="d-flex flex-column justify-content-start">
                         <a class="text-dark mb-2" href="index.html"><i class="fa fa-angle-right mr-2"></i>Home</a>
-                        <a class="text-dark mb-2" href="shopi.html"><i class="fa fa-angle-right mr-2"></i>Products</a>
-<!--                        <a class="text-dark mb-2" href="detail.html"><i class="fa fa-angle-right mr-2"></i>Shop Detail</a>-->
-<% if (session.getAttribute("u_email") != null) {%>
+
+
+                        <a class="text-dark mb-2" href="shop.html"><i class="fa fa-angle-right mr-2"></i>Products</a>
+                        <!--                        <a class="text-dark mb-2" href="detail.html"><i class="fa fa-angle-right mr-2"></i>Shop Detail</a>-->
+                        <% if (session.getAttribute("u_email") != null) {%>
+
                         <a class="text-dark mb-2" href="cart.html"><i class="fa fa-angle-right mr-2"></i>Shopping Cart</a>
                         <% } %>
-<!--                        <a class="text-dark mb-2" href="checkout.html"><i class="fa fa-angle-right mr-2"></i>Checkout</a>-->
+                        <!--                        <a class="text-dark mb-2" href="checkout.html"><i class="fa fa-angle-right mr-2"></i>Checkout</a>-->
                         <a class="text-dark" href="contact.html"><i class="fa fa-angle-right mr-2"></i>Contact Us</a>
                     </div>
                 </div>
@@ -68,7 +71,7 @@
                 &copy; <a class="text-dark font-weight-semi-bold" href="#">EAuction</a>. All Rights Reserved. Designed
                 by
                 <a class="text-dark font-weight-semi-bold" href="https://htmlcodex.com">MCA Group</a><br>
-                
+
             </p>
         </div>
         <div class="col-md-6 px-xl-0 text-center text-md-right">
