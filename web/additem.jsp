@@ -1,18 +1,22 @@
 <%-- 
     Document   : additem
-    Created on : 17-Apr-2024, 1:55:01 pm
+    Created on : 17-Apr-2024, 1:55:01?pm
     Author     : jagdish
 --%>
 
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+
+<%@ page import="java.sql.*,java.util.*,javax.servlet.*"%>
+<%@ page import="java.io.InputStream" %>
+<%@ page import="jakarta.servlet.annotation.MultipartConfig" %>
 <!DOCTYPE html>
 <html>
     <head>
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta charset="UTF-8">
         <title>Sell Product</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     </head>
     <body>
+
         <div class="container-fluid mb-2">
             <div class="row border-top px-xl-5">
                 <div class="col-lg-12">
@@ -31,10 +35,9 @@
                 </div>
             </div>
         </div>
+
         <div class="container d-flex justify-content-center align-items-center" style="height: 120vh;">
-               
-            
-            <form method="POST">
+            <form method="post" action="NewServlet" enctype="multipart/form-data">
                 <div class="text-center mb-4">
                     <h2 class="section-title px-5"><span class="px-2">List your Product</span></h2>
                 </div>
@@ -74,75 +77,72 @@
                     <input type="datetime-local" class="form-control" name="endTime" id="endTime">
                 </div>
                 <button type="submit" class="btn btn-primary">Add Item</button>
-
             </form>
-        </div>
 
+            <% 
+            // Check if the form is submitted
+            if ("POST".equalsIgnoreCase(request.getMethod())) {
+                // Get form data
+                String itemName = request.getParameter("itemName");
+                String itemDescription = request.getParameter("itemDescription");
+                String itemCategory = request.getParameter("itemCategory");
+                Part filePart = request.getPart("itemImage"); // Retrieve <input type="file" name="itemImage">
+                InputStream itemImageStream = filePart.getInputStream(); // Get the input stream for the uploaded file
+                int itemBasePrice = Integer.parseInt(request.getParameter("itemBasePrice"));
+                String startTime = request.getParameter("startTime");
+                String endTime = request.getParameter("endTime");
 
+                Connection con = null;
+                PreparedStatement ps = null;
 
-
-        <%@ page import="java.sql.*,java.util.*,javax.servlet.*"%>
-        <%@ page import="java.io.InputStream" %>
-
-        <%
-        // Check if the form is submitted
-        if ("POST".equalsIgnoreCase(request.getMethod())) {
-            // Get form data
-            String itemName = request.getParameter("itemName");
-            String itemDescription = request.getParameter("itemDescription");
-            String itemCategory = request.getParameter("itemCategory");
-            Part filePart = request.getPart("itemImage"); // Retrieve <input type="file" name="itemImage">
-            InputStream itemImageStream = filePart.getInputStream(); // Get the input stream for the uploaded file
-            int itemBasePrice = Integer.parseInt(request.getParameter("itemBasePrice"));
-            String startTime = request.getParameter("startTime");
-            String endTime = request.getParameter("endTime");
-            Connection con = null;
-            PreparedStatement ps = null;
-            
-
-            try {
-                // Establish database connection
-                Class.forName("com.mysql.jdbc.Driver");
-                con = DriverManager.getConnection("jdbc:mysql://localhost:3306/auction", "root", "");
-
-                // Prepare SQL statement
-                String query = "INSERT INTO item (item_name, item_description, item_category, item_img, item_bprice, start_time, end_time) VALUES (?, ?, ?, ?, ?, ?, ?)";
-                ps = con.prepareStatement(query);
-                ps.setString(1, itemName);
-                ps.setString(2, itemDescription);
-                ps.setString(3, itemCategory);
-                ps.setBlob(4, itemImageStream); // Set the image as a blob
-                ps.setInt(5, itemBasePrice);
-                ps.setString(6, startTime);
-                ps.setString(7, endTime);
-
-                // Execute the query
-                int rowsAffected = ps.executeUpdate();
-
-                // Check if the insertion was successful
-                if (rowsAffected > 0) {
-                    out.println("<script>alert('Item added successfully');</script>");
-                    response.sendRedirect("home.jsp");
-                } else {
-                    out.println("<script>alert('Failed to add item');</script>");
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            } finally {
-                // Close resources
                 try {
-                    if (ps != null) ps.close();
-                    if (con != null) con.close();
-                } catch (SQLException ex) {
-                    ex.printStackTrace();
+                    // Establish database connection
+                    Class.forName("com.mysql.jdbc.Driver");
+                    con = DriverManager.getConnection("jdbc:mysql://localhost:3306/auction", "root", "");
+                    if (con != null && !con.isClosed()) {
+                        out.println("Connection successfully<br>");
+                    } else {
+                        out.println("Failed to connect<br>");
+                    }
+
+                    // Prepare SQL statement
+                    String query = "INSERT INTO item (item_name, item_description, item_category, item_img, item_bprice, start_time, end_time) VALUES (?, ?, ?, ?, ?, ?, ?)";
+                    ps = con.prepareStatement(query);
+                    ps.setString(1, itemName);
+                    ps.setString(2, itemDescription);
+                    ps.setString(3, itemCategory);
+                    ps.setBlob(4, itemImageStream); // Set the image as a blob
+                    ps.setInt(5, itemBasePrice);
+                    ps.setString(6, startTime);
+                    ps.setString(7, endTime);
+
+                    // Execute the query
+                    int rowsAffected = ps.executeUpdate();
+
+                    // Check if the insertion was successful
+                    if (rowsAffected > 0) {
+                        out.println("<script>alert('Item added successfully');</script>");
+                        
+                    } else {
+                        out.println("<script>alert('Failed to add item');</script>");
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                } finally {
+                    // Close resources
+                    try {
+                        if (ps != null) ps.close();
+                        if (con != null) con.close();
+                    } catch (SQLException ex) {
+                        ex.printStackTrace();
+                    }
                 }
             }
-        }
-        %>
-
-        <%@include file="footer.jsp" %>
+            %>
+        </div>
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+        <!--              JavaScript Libraries -->
         <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
         <script src="lib/easing/easing.min.js"></script>
@@ -154,8 +154,7 @@
 
         <!--             Template Javascript -->
         <script src="js/main.js"></script>
-       
+        <%@include file="footer.jsp" %>
 
     </body>
 </html>
-

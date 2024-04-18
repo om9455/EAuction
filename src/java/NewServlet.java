@@ -1,84 +1,75 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
- */
-
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.InputStream;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.MultipartConfig;
+import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.Part;
 
-/**
- *
- * @author jagdish
- */
+@WebServlet("/NewServlet")
+@MultipartConfig
 public class NewServlet extends HttpServlet {
+    private static final long serialVersionUID = 1L;
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet NewServlet</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet NewServlet at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        // Get form data
+        String itemName = request.getParameter("itemName");
+        String itemDescription = request.getParameter("itemDescription");
+        String itemCategory = request.getParameter("itemCategory");
+        Part filePart = request.getPart("itemImage");
+        InputStream itemImageStream = filePart.getInputStream();
+        int itemBasePrice = Integer.parseInt(request.getParameter("itemBasePrice"));
+        String startTime = request.getParameter("startTime");
+        String endTime = request.getParameter("endTime");
+
+        // Database connection variables
+        Connection con = null;
+        PreparedStatement ps = null;
+
+        try {
+            // Establish database connection
+            Class.forName("com.mysql.jdbc.Driver");
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/auction", "root", "");
+
+            // Prepare SQL statement
+            String query = "INSERT INTO item (item_name, item_description, item_category, item_img, item_bprice, start_time, end_time) VALUES (?, ?, ?, ?, ?, ?, ?)";
+            ps = con.prepareStatement(query);
+            ps.setString(1, itemName);
+            ps.setString(2, itemDescription);
+            ps.setString(3, itemCategory);
+            ps.setBlob(4, itemImageStream);
+            ps.setInt(5, itemBasePrice);
+            ps.setString(6, startTime);
+            ps.setString(7, endTime);
+
+            // Execute the query
+            int rowsAffected = ps.executeUpdate();
+
+            // Check if the insertion was successful
+            if (rowsAffected > 0) {
+                response.getWriter().println("<script>alert('Item Listed Successfully');</script>");
+                // Redirect to home.jsp after successful insertion
+                response.sendRedirect("additem.jsp");
+            } else {
+                // Handle insertion failure
+                response.getWriter().println("<script>alert('Failed to add item');</script>");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            // Close resources
+            try {
+                if (ps != null) ps.close();
+                if (con != null) con.close();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
         }
     }
-
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
-    }
-
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
-    }
-
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
-
 }
