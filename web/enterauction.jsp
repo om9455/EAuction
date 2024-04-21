@@ -253,26 +253,27 @@ out.println("</script>");
                 // Store the winner in the winners table only if the auction has ended
                 // Check if the auction has ended
                 if (System.currentTimeMillis() >= endTime1) {
-    // Insert the winner details into the winners table
-                try {
+                    // Query to check if the winner data already exists in the winners table
+                    ResultSet winnerExistenceCheck = stmt.executeQuery("SELECT * FROM winners WHERE item_id = '" + productId + "'");
+
+                    if (!winnerExistenceCheck.next()) {
+                        // Insert the winner details into the winners table
                         String insertWinnerSql = "INSERT INTO winners (u_id, item_id, bid_id, bid_amount) VALUES (?, ?, ?, ?)";
                         PreparedStatement pstmt = conn.prepareStatement(insertWinnerSql);
                         pstmt.setString(1, highestBidderId);
                         pstmt.setString(2, productId);
                         pstmt.setString(3, highestBidId);
                         pstmt.setInt(4, highestBidAmount);
-        
+
                         // Execute the update
                         pstmt.executeUpdate();
-        
+
                         // Close the PreparedStatement
                         pstmt.close();
-                    
-                        } catch (SQLException e) {
-                        // Handle exceptions, log the error, or display an error message
-                        e.printStackTrace();
-                        out.println("<div class='container py-5'><h3>Error inserting winner data: " + e.getMessage() + "</h3></div>");
                     }
+
+                    // Close the ResultSet for winnerExistenceCheck
+                    winnerExistenceCheck.close();
                 }
 
             }
