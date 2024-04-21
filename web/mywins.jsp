@@ -62,7 +62,7 @@
                             if (conn != null) {
 
                                 // SQL query to retrieve the item details for the current user from the winners table
-                                String query = "SELECT i.item_img, i.item_name, w.bid_amount " +
+                                String query = "SELECT i.item_img, w.item_id, i.item_name, w.bid_amount " +
                                                 "FROM winners w " +
                                                 "INNER JOIN item i ON w.item_id = i.item_id " +
                                                 "WHERE w.u_id = '" + currentUserID + "'";
@@ -87,6 +87,7 @@
                                 <% String itemName = rs.getString("item_name"); %>
                                 <% double bidAmount = rs.getDouble("bid_amount"); %>
 
+
                                 <% // Convert blob image to base64 format for display %>
                                 <% byte[] imgBytes = imageBlob.getBytes(1, (int) imageBlob.length()); %>
                                 <% String base64Image = Base64.getEncoder().encodeToString(imgBytes); %>
@@ -95,6 +96,7 @@
                                 <div class="card-body">
                                     <h5 class="card-title"><%= itemName %></h5>
                                     <p class="card-text">Your Bid Amount: <%= bidAmount %></p>
+                                    <a href="enterauction.jsp?item_id=<%= rs.getInt("item_id") %>">View Details</a>
                                 </div>
                             </div>
                         </div>
