@@ -64,7 +64,7 @@
                             <a href="" class="nav-link dropdown-toggle" data-toggle="dropdown"><%= session.getAttribute("u_name") %>'s Profile</a>
                             <div class="dropdown-menu rounded-0 m-0">
                                 <a href="additem.jsp" class="dropdown-item">Sell</a>
-                                <a href="#" class="dropdown-item">Update Password</a>
+                                <a href="updatePassword.jsp" class="dropdown-item">Update Password</a>
                                 <a href="profile.jsp" class="dropdown-item">Update Profile</a>
                             </div>
                         </div>
