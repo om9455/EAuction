@@ -4,8 +4,24 @@
         <servlet-name>NewServlet</servlet-name>
         <servlet-class>NewServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>updateProfile</servlet-name>
+        <servlet-class>updateProfile</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>passwordChange</servlet-name>
+        <servlet-class>passwordChange</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>NewServlet</servlet-name>
         <url-pattern>/NewServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>updateProfile</servlet-name>
+        <url-pattern>/updateProfile</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>passwordChange</servlet-name>
+        <url-pattern>/passwordChange</url-pattern>
     </servlet-mapping>
 </web-app>
