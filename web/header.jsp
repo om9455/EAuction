@@ -31,16 +31,16 @@
                         </a>
                     </div>
                     <div class="col-lg-6 col-6 text-left">
-                        <form action="">
-                            <div class="input-group">
-                                <input type="text" class="form-control" placeholder="Search for products">
-                                <div class="input-group-append">
-                                    <span class="input-group-text bg-transparent text-primary">
-                                        <i class="fa fa-search"></i>
-                                    </span>
-                                </div>
-                            </div>
-                        </form>
+                        <form action="products.jsp" method="GET">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Search by name" name="name">
+                    <div class="input-group-append">
+                        <button class="btn btn-primary" type="submit">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+            </form>
                     </div>
                     <div class="col-lg-3 col-6 text-right">
 
@@ -102,16 +102,16 @@
                         </a>
                     </div>
                     <div class="col-lg-6 col-6 text-left">
-                        <form action="">
-                            <div class="input-group">
-                                <input type="text" class="form-control" placeholder="Search for products">
-                                <div class="input-group-append">
-                                    <span class="input-group-text bg-transparent text-primary">
-                                        <i class="fa fa-search"></i>
-                                    </span>
-                                </div>
-                            </div>
-                        </form>
+                       <form action="products.jsp" method="GET">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Search by name" name="name">
+                    <div class="input-group-append">
+                        <button class="btn btn-primary" type="submit">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+            </form>
                     </div>
                     <!--        <div class="col-lg-3 col-6 text-right">
                                 <a href="" class="btn border">
