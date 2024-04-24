@@ -46,10 +46,10 @@
                 <a href="admin_dashboard.jsp" class="nav-item nav-link">Home</a>
                 <a href="show_winners.jsp" class="nav-item nav-link">Show Winners</a>
                 <a href="show_item.jsp" class="nav-item nav-link">Show items</a>
-                <a href="" class="nav-item nav-link">Show Auctions details</a>
+<!--                <a href="" class="nav-item nav-link">Show Auctions details</a>-->
                 <a href="show_customers.jsp" class="nav-item nav-link">Show customers</a>
-                <a href="" class="nav-item nav-link">Show sold items</a>
-                <a href="" class="nav-item nav-link">Logout</a>
+<!--                <a href="" class="nav-item nav-link">Show sold items</a>-->
+<!--                <a href="" class="nav-item nav-link">Logout</a>-->
             </div>
         </nav>
     </div>
@@ -94,9 +94,9 @@
             %>
             </tbody>
         </table>
-        <div class="print-button-container mt-3">
-            <button class="btn btn-primary" onclick="DataTable()">Print Table</button>
-        </div>
+    <!--        <div class="print-button-container mt-3">
+                <button class="btn btn-primary" onclick="DataTable()">Print Table</button>
+            </div>-->
     </div>
 </div>
 <%@include file="footer.jsp" %>

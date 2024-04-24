@@ -56,22 +56,22 @@
                     <div id="header-carousel" class="carousel slide" data-ride="carousel">
                         <div class="carousel-inner">
                             <div class="carousel-item active" style="height: 410px;">
-                                <img class="img-fluid" src="img/carousel-1.jpg" alt="Image">
+                                <img class="img-fluid" src="img/Slide_1.jpg" alt="Image">
                                 <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
                                     <div class="p-3" style="max-width: 700px;">
-                                        <h4 class="text-light text-uppercase font-weight-medium mb-3">10% Off Your First Order</h4>
-                                        <h3 class="display-4 text-white font-weight-semi-bold mb-4">Fashionable Dress</h3>
-                                        <a href="" class="btn btn-light py-2 px-3">Shop Now</a>
+                                        <h4 class="text-light text-uppercase font-weight-medium mb-3"></h4>
+                                        <h3 class="display-4 text-white font-weight-semi-bold mb-4">Explore Latest Products</h3>
+                                        <a href="shop.jsp" class="btn btn-light py-2 px-3">Shop Now</a>
                                     </div>
                                 </div>
                             </div>
                             <div class="carousel-item" style="height: 410px;">
-                                <img class="img-fluid" src="img/carousel-2.jpg" alt="Image">
+                                <img class="img-fluid" src="img/Slide_2.jpg" alt="Image">
                                 <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
                                     <div class="p-3" style="max-width: 700px;">
-                                        <h4 class="text-light text-uppercase font-weight-medium mb-3">10% Off Your First Order</h4>
-                                        <h3 class="display-4 text-white font-weight-semi-bold mb-4">Reasonable Price</h3>
-                                        <a href="" class="btn btn-light py-2 px-3">Shop Now</a>
+                                        <h4 class="text-light text-uppercase font-weight-medium mb-3"></h4>
+                                        <h3 class="display-4 text-white font-weight-semi-bold mb-4">Explore Latest Products</h3>
+                                        <a href="shop.jsp" class="btn btn-light py-2 px-3">Shop Now</a>
                                     </div>
                                 </div>
                             </div>
@@ -131,7 +131,7 @@
                 <!-- Auction Category 1 -->
                 <div class="col-lg-4 col-md-6 pb-1">
                     <div class="cat-item d-flex flex-column border mb-4" style="padding: 30px;">
-                        <p class="text-right">15 Listings</p>
+                        <p class="text-right">1 Listings</p>
                         <a href="electronics.jsp" class="cat-img position-relative overflow-hidden mb-3">
                             <img class="img-fluid" src="img/electronic.jpeg" alt="Electronics" style="width:100%; height:200px; object-fit:cover;">
                         </a>
@@ -142,7 +142,7 @@
                 <!-- Auction Category 2 -->
                 <div class="col-lg-4 col-md-6 pb-1">
                     <div class="cat-item d-flex flex-column border mb-4" style="padding: 30px;">
-                        <p class="text-right">10 Listings</p>
+                        <p class="text-right">1 Listings</p>
                         <a href="vehicles.jsp" class="cat-img position-relative overflow-hidden mb-3">
                             <img class="img-fluid" src="img/vehicles.jpg" alt="Vehicles" style="width:100%; height:200px; object-fit:cover;">
                         </a>
@@ -153,7 +153,7 @@
                 <!-- Auction Category 3 -->
                 <div class="col-lg-4 col-md-6 pb-1">
                     <div class="cat-item d-flex flex-column border mb-4" style="padding: 30px;">
-                        <p class="text-right">8 Listings</p>
+                        <p class="text-right">2 Listings</p>
                         <a href="realestate.jsp" class="cat-img position-relative overflow-hidden mb-3">
                             <img class="img-fluid" src="img/realestate.jpg" alt="Real Estate" style="width:100%; height:200px; object-fit:cover;">
                         </a>
@@ -164,7 +164,7 @@
                 <!-- Auction Category 4 -->
                 <div class="col-lg-4 col-md-6 pb-1">
                     <div class="cat-item d-flex flex-column border mb-4" style="padding: 30px;">
-                        <p class="text-right">12 Listings</p>
+                        <p class="text-right">1 Listings</p>
                         <a href="artandantique.jsp" class="cat-img position-relative overflow-hidden mb-3">
                             <img class="img-fluid" src="img/artsandantiques.jpg" alt="Art & Antiques" style="width:100%; height:200px; object-fit:cover;">
                         </a>
@@ -175,7 +175,7 @@
                 <!-- Auction Category 5 -->
                 <div class="col-lg-4 col-md-6 pb-1">
                     <div class="cat-item d-flex flex-column border mb-4" style="padding: 30px;">
-                        <p class="text-right">6 Listings</p>
+                        <p class="text-right">0 Listings</p>
                         <a href="collectibles.jsp" class="cat-img position-relative overflow-hidden mb-3">
                             <img class="img-fluid" src="img/collectibles.jpg" alt="Collectibles" style="width:100%; height:200px; object-fit:cover;">
                         </a>
@@ -186,7 +186,7 @@
                 <!-- Auction Category 6 -->
                 <div class="col-lg-4 col-md-6 pb-1">
                     <div class="cat-item d-flex flex-column border mb-4" style="padding: 30px;">
-                        <p class="text-right">9 Listings</p>
+                        <p class="text-right">1 Listings</p>
                         <a href="jwelleryandwatches.jsp" class="cat-img position-relative overflow-hidden mb-3">
                             <img class="img-fluid" src="img/jwelleryandwatches.jpg" alt="Jewelry & Watches" style="width:100%; height:200px; object-fit:cover;">
                         </a>
@@ -204,7 +204,7 @@
             <div class="row px-xl-5">
                 <div class="col-md-6 pb-4">
                     <div class="position-relative bg-secondary text-center text-md-right text-white mb-2 py-5 px-5">
-                        <img src="img/offer-1.png" alt="">
+                        <img src="img/art.png" alt="">
                         <div class="position-relative" style="z-index: 1;">
                             <h1 class="mb-4 font-weight-semi-bold">Arts and Antiques</h1>
                             <h5 class="text-uppercase text-primary mb-3">5% off on winning bid amount</h5>
@@ -214,7 +214,7 @@
                 </div>
                 <div class="col-md-6 pb-4">
                     <div class="position-relative bg-secondary text-center text-md-left text-white mb-2 py-5 px-5">
-                        <img src="img/offer-2.png" alt="">
+                        <img src="img/estate.png" alt="">
                         <div class="position-relative" style="z-index: 1;">
                             <h1 class="mb-4 font-weight-semi-bold">Real Estate</h1>
                             <h5 class="text-uppercase text-primary mb-3">1% off on winning bid amount</h5>
@@ -346,7 +346,7 @@
 
 
         <!-- Subscribe Start -->
-        <div class="container-fluid bg-secondary my-5">
+<!--        <div class="container-fluid bg-secondary my-5">
             <div class="row justify-content-md-center py-5 px-xl-5">
                 <div class="col-md-6 col-12 py-5">
                     <div class="text-center mb-2 pb-2">
@@ -364,7 +364,7 @@
                         </div>
                 </div>
             </div>
-        </div>
+        </div>-->
         <!-- Subscribe End -->
 
 
