@@ -45,7 +45,6 @@
                         <a href="admin_dashboard.jsp" class="nav-item nav-link">Home</a>
                         <a href="show_winners.jsp" class="nav-item nav-link">Show Winners</a>
                         <a href="show_item.jsp" class="nav-item nav-link">Show items</a>
-                        <a href="" class="nav-item nav-link">Show Auctions details</a>
                         <a href="show_customers.jsp" class="nav-item nav-link">Show customers</a>
                     </div>
                 </nav>
@@ -66,7 +65,7 @@
                             // Retrieve data from database and populate table rows
                             try {
                                 // Establish database connection
-                                Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/auction_final", "root", "");
+                                Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/auction", "root", "");
                                 Statement stmt = conn.createStatement();
                                 ResultSet rs = stmt.executeQuery("SELECT * FROM user");
 
@@ -90,9 +89,9 @@
                         %>
                     </tbody>
                 </table>
-                <div class="print-button-container mt-3" >
+<!--                <div class="print-button-container mt-3" >
                     <button class="btn btn-primary" onclick="printTableAsPDF()">Print Table as PDF</button>
-                </div>
+                </div>-->
             </div>
         </div>
 

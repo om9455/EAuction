@@ -135,7 +135,7 @@
                 <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                     <div class="navbar-nav mr-auto py-0">
                         <a href="index.jsp" class="nav-item nav-link">Home</a>
-                        <a href="shop.jsp" class="nav-item nav-link">Shop</a>
+                        <a href="shop.jsp" class="nav-item nav-link">Products</a>
                         <!--            <a href="detail.html" class="nav-item nav-link">Shop Detail</a>-->
                         <div class="nav-item dropdown">
                             <a href="" class="nav-link dropdown-toggle" data-toggle="dropdown">Categories</a>
@@ -151,7 +151,13 @@
                         <a href="contact.html" class="nav-item nav-link">Contact</a>
                     </div>
                     <div class="navbar-nav ml-auto py-0">
-                        <a href="login.jsp" class="nav-item nav-link">Login</a>
+                        <div class="nav-item dropdown">
+                            <a href="" class="nav-link dropdown-toggle" data-toggle="dropdown">Login</a>
+                            <div class="dropdown-menu rounded-0 m-0">
+                                <a href="login.jsp" class="dropdown-item">User Login</a>
+                                <a href="admin_login.jsp" class="dropdown-item">Admin Login</a>
+                            </div>
+                        </div>
                         <a href="register.jsp" class="nav-item nav-link">Register</a>
                     </div>
                 </div>

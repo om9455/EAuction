@@ -51,9 +51,9 @@
                     <a href="" class="nav-item nav-link">Home</a>
                     <a href="show_winners.jsp" class="nav-item nav-link">Show Winners</a>
                     <a href="show_item.jsp" class="nav-item nav-link">Show items</a>
-                    <a href="" class="nav-item nav-link">Show Auctions details</a>
+<!--                    <a href="" class="nav-item nav-link">Show Auctions details</a>-->
                     <a href="show_customers.jsp" class="nav-item nav-link">Show customers</a>
-                    <a href="" class="nav-item nav-link">Show sold items</a>
+<!--                    <a href="" class="nav-item nav-link">Show sold items</a>-->
                 </div>
             </nav>
         </div>
@@ -78,7 +78,7 @@
                         // Retrieve data from database and populate table rows
                         try {
                             // Establish database connection
-                            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/auction_final", "root", "");
+                            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/auction", "root", "");
                             Statement stmt = conn.createStatement();
                             ResultSet rs = stmt.executeQuery("SELECT * FROM item");
 

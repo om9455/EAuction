@@ -9,6 +9,14 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
         <title>My Wins</title>
+        <style>
+            /* Style for product images */
+            .product-img img {
+                width: 100%; /* Set image width to 100% of the container */
+                height: 200px; /* Set a fixed height */
+                object-fit: cover; /* Maintain aspect ratio and crop excess */
+            }
+        </style>
     </head>
 
     <body>
@@ -84,7 +92,7 @@
                     <div class="row">
                         <% while (rs.next()) { %>
                         <div class="col-md-4 mb-4">
-                            <div class="card">
+                            <div class="card product-img">
                                 <% // Retrieve item details %>
                                 <% Blob imageBlob = rs.getBlob("item_img"); %>
                                 <% String itemName = rs.getString("item_name"); %>
